@@ -8,7 +8,6 @@ export const routeGenerator = (items: TUserPath[]) => {
                 element: item.element,
             });
         }
-
         if (item.children) {
             item.children.forEach((child) => {
                 acc.push({
