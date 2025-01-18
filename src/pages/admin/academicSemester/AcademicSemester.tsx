@@ -19,7 +19,7 @@ const AcademicSemester = () => {
 
   console.log({ isLoading, isFetching });
 
-  const tableData = semesterData?.data?.result.map(
+  const tableData = semesterData?.data?.map(
     ({ _id, name, startMonth, endMonth, year }) => ({
       key: _id,
       name,
