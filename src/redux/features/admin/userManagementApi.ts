@@ -35,7 +35,7 @@ const userManagementApi = baseApi.injectEndpoints({
                 method: "POST",
                 body: data
             })
-        })
+        }),
     })
 });
 

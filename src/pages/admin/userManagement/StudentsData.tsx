@@ -1,20 +1,36 @@
-import { Button, Space, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Button,
+  Pagination,
+  Space,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import { useState } from "react";
-import { useGetAllStudentsQuery } from "../../redux/features/admin/userManagementApi";
-import { TStudent } from "../../types/userManagement.types";
-import { TQueryParam } from "../../types/global";
+import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagementApi";
+import { TStudent } from "../../../types/userManagement.types";
+import { TQueryParam } from "../../../types/global";
+import { Link } from "react-router-dom";
 
-export type TTableData = Pick<TStudent, "id" | "name">;
+export type TTableData = Pick<TStudent, "fullName" | "id">;
 
 const StudentsData = () => {
-  const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
+  const [params, setParams] = useState<TQueryParam[] | undefined>([]);
+  const [page, setPage] = useState(1);
   const {
     data: semesterData,
     // isLoading,
     isFetching,
-  } = useGetAllStudentsQuery(params);
+  } = useGetAllStudentsQuery(
+    [
+      { name: "page", value: page },
+      { name: "sort", value: "id" },
+    ],
+    ...params
+  );
 
-  console.log(semesterData);
+  const metaData = semesterData?.meta;
+  console.log(metaData);
 
   const tableData = semesterData?.data?.map(
     ({ _id, id, fullName, email, contactNo }) => ({
@@ -52,10 +68,11 @@ const StudentsData = () => {
       title: "Action",
       key: "x",
       render: (item) => {
-        console.log(item);
         return (
           <Space>
-            <Button>Details</Button>
+            <Link to={`/admin/student-data/${item?.key}`}>
+              <Button>Details</Button>
+            </Link>
             <Button>Update</Button>
             <Button>Block</Button>
           </Space>
@@ -86,12 +103,21 @@ const StudentsData = () => {
   };
 
   return (
-    <Table
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-    />
+    <>
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={tableData}
+        onChange={onChange}
+        pagination={false}
+      />
+      <Pagination
+        current={page}
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      />
+    </>
   );
 };
 

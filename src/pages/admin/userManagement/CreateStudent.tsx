@@ -1,15 +1,14 @@
-import PHForm from "../../components/forms/PHForm";
-import PHInput from "../../components/forms/PHInput";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Divider, Form, Input, Row } from "antd";
-import PHSelect from "../../components/forms/PHSelect";
-import { bloodGroupOptions, genderOptions } from "../../constants/global";
-import PHDatePicker from "../../components/forms/PHDatePicker";
-import {
-  useGetAcademicDepartmentsQuery,
-  useGetAllSemestersQuery,
-} from "../../redux/features/admin/academicmanagementApi";
-import { useAddStudentMutation } from "../../redux/features/admin/userManagementApi";
+
+
+import { useGetAcademicDepartmentsQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicmanagementApi";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagementApi";
+import PHForm from "../../../components/forms/PHForm";
+import PHInput from "../../../components/forms/PHInput";
+import PHSelect from "../../../components/forms/PHSelect";
+import PHDatePicker from "../../../components/forms/PHDatePicker";
+import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 
 //! This is only for development
 //! Should be removed
@@ -248,7 +247,6 @@ const CreateStudent = () => {
               />
             </Col>
           </Row>
-
           <Button htmlType="submit">Submit</Button>
         </PHForm>
       </Col>
