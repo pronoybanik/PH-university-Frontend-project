@@ -1,4 +1,3 @@
-import React from "react";
 import PHForm from "../../components/forms/PHForm";
 import PHInput from "../../components/forms/PHInput";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
@@ -11,7 +10,6 @@ import {
   useGetAllSemestersQuery,
 } from "../../redux/features/admin/academicmanagementApi";
 import { useAddStudentMutation } from "../../redux/features/admin/userManagementApi";
-import Password from "antd/es/input/Password";
 
 //! This is only for development
 //! Should be removed
@@ -81,7 +79,8 @@ const CreateStudent = () => {
     // sent data in backend formdata pattern...
     // const formData = new FormData();
     // formData.append("data", JSON.stringify(data));
-    // console.log(Object.fromEntries(formData));
+    // formData.append("file", data.image);
+    // addStudent(formData);
   };
 
   return (

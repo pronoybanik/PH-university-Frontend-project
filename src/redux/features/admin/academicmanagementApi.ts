@@ -42,7 +42,7 @@ const academicManagementApi = baseApi.injectEndpoints({
                     method: 'GET'
                 };
             },
-            transformResponse: (response) => {
+            transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
                 return {
                     data: response.data,
                     meta: response.meta,
@@ -56,12 +56,12 @@ const academicManagementApi = baseApi.injectEndpoints({
                 body: data,
             }),
         }),
-
     }),
-})
+});
 
 export const {
     useGetAllSemestersQuery,
     useAddAcademicSemestersMutation,
     useAddAcademicDepartmentMutation,
-    useGetAcademicDepartmentsQuery } = academicManagementApi;
+    useGetAcademicDepartmentsQuery
+} = academicManagementApi;
