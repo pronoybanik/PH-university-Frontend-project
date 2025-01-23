@@ -1,8 +1,10 @@
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Divider, Form, Input, Row } from "antd";
 
-
-import { useGetAcademicDepartmentsQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicmanagementApi";
+import {
+  useGetAcademicDepartmentsQuery,
+  useGetAllSemestersQuery,
+} from "../../../redux/features/admin/academicmanagementApi";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagementApi";
 import PHForm from "../../../components/forms/PHForm";
 import PHInput from "../../../components/forms/PHInput";
