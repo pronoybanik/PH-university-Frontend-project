@@ -1,3 +1,4 @@
+import { TQueryParam, TResponseRedux } from "../../../types/global";
 import baseApi from "../../api/baseApi";
 
 
@@ -27,20 +28,68 @@ const courseManagementApi = baseApi.injectEndpoints({
         //         };
         //     },
         // }),
+
+        getAllRegisterSemester: builder.query({
+            query: () => ({
+                url: "/semester-registrations",
+                method: "GET"
+            }),
+            providesTags: ["semester"]
+        }),
         addRegisterSemester: builder.mutation({
             query: (data) => ({
                 url: "/semester-registrations/create-semester-registration",
                 method: "POST",
                 body: data
-            })
+            }),
+            invalidatesTags: ["semester"]
         }),
-        getAllRegisterSemester: builder.query({
-            query: () => ({
-                url: "/semester-registrations",
-                method: "GET"
-            })
+        updateRegisterSemester: builder.mutation({
+            query: (args) => ({
+                url: `/semester-registrations/${args.id}`,
+                method: "PATCH",
+                body: args.data
+            }),
+            invalidatesTags: ["semester"]
+        }),
+        getAllCourses: builder.query({
+            query: (args) => {
+                const params = new URLSearchParams();
+                if (args) {
+                    args.forEach((item: TQueryParam) => {
+                        params.append(item.name, item.value as string);
+                    });
+                }
+
+                return {
+                    url: '/course',
+                    method: 'GET',
+                    params: params,
+                };
+            },
+            providesTags: ['courses'],
+            transformResponse: (response: TResponseRedux<any>) => {
+                return {
+                    data: response.data,
+                    meta: response.meta,
+                };
+            },
+        }),
+        addCourse: builder.mutation({
+            query: (data) => ({
+                url: `/course/create-course`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['courses'],
         }),
     })
 });
 
-export const { useAddRegisterSemesterMutation, useGetAllRegisterSemesterQuery } = courseManagementApi;
+export const {
+    useAddRegisterSemesterMutation,
+    useGetAllRegisterSemesterQuery,
+    useUpdateRegisterSemesterMutation,
+    useGetAllCoursesQuery,
+    useAddCourseMutation,
+} = courseManagementApi;

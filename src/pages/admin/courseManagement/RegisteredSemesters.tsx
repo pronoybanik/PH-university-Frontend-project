@@ -1,9 +1,31 @@
-import { Button, Table, TableColumnsType } from "antd";
-import { useGetAllRegisterSemesterQuery } from "../../../redux/features/admin/courseManagement";
+import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
+import {
+  useGetAllRegisterSemesterQuery,
+  useUpdateRegisterSemesterMutation,
+} from "../../../redux/features/admin/courseManagement";
 import { TSemester } from "../../../types/courseManagement.type";
 import moment from "moment";
+import { useState } from "react";
+
+const items = [
+  {
+    label: "Upcoming",
+    key: "UPCOMING",
+  },
+  {
+    label: "Ongoing",
+    key: "ONGOING",
+  },
+  {
+    label: "Ended",
+    key: "ENDED",
+  },
+];
 
 const RegisteredSemesters = () => {
+  const [semesterId, setSemesterId] = useState("");
+  const [updateRegisterSemester] = useUpdateRegisterSemesterMutation();
+
   const { data: RegisteredSemesters, isFetching } =
     useGetAllRegisterSemesterQuery(undefined);
 
@@ -18,6 +40,22 @@ const RegisteredSemesters = () => {
       })
     ) ?? [];
 
+  const handleStatusUpdate = (data: any) => {
+    console.log("semester", semesterId);
+    console.log("new status", data.key);
+
+    const updateData = {
+      id: semesterId,
+      data: { status: data.key },
+    };
+    updateRegisterSemester(updateData);
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleStatusUpdate,
+  };
+
   const columns: TableColumnsType<TSemester> = [
     {
       title: "Name",
@@ -28,6 +66,19 @@ const RegisteredSemesters = () => {
       title: "Status",
       key: "status",
       dataIndex: "status",
+      render: (item) => {
+        let color;
+        if (item === "UPCOMING") {
+          color = "blue";
+        }
+        if (item === "ONGOING") {
+          color = "green";
+        }
+        if (item === "ENDED") {
+          color = "red";
+        }
+        return <Tag color={color}>{item}</Tag>;
+      },
     },
     {
       title: "Start Date",
@@ -42,11 +93,11 @@ const RegisteredSemesters = () => {
     {
       title: "Action",
       key: "x",
-      render: () => {
+      render: (item) => {
         return (
-          <div>
-            <Button>Update</Button>
-          </div>
+          <Dropdown menu={menuProps}>
+            <Button onClick={() => setSemesterId(item?.key)}>Update</Button>
+          </Dropdown>
         );
       },
     },
