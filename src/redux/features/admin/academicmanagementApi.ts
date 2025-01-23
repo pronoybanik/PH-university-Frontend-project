@@ -55,22 +55,22 @@ const academicManagementApi = baseApi.injectEndpoints({
         }),
         getAcademicFaculties: builder.query({
             query: () => {
-              return { url: '/academic-faculties', method: 'GET' };
+                return { url: '/academic-faculty', method: 'GET' };
             },
             transformResponse: (response: TResponseRedux<TAcademicFaculty[]>) => {
-              return {
-                data: response.data,
-                meta: response.meta,
-              };
+                return {
+                    data: response.data,
+                    meta: response.meta,
+                };
             },
-          }),
-          addAcademicFaculty: builder.mutation({
+        }),
+        addAcademicFaculty: builder.mutation({
             query: (data) => ({
-              url: '/academic-faculties/create-academic-faculty',
-              method: 'POST',
-              body: data,
+                url: '/academic-faculties/create-academic-faculty',
+                method: 'POST',
+                body: data,
             }),
-          }),
+        }),
     }),
 });
 
